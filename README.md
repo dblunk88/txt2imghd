@@ -1,5 +1,7 @@
 # txt2imghd
 
+[![Replicate](https://replicate.com/cjwbw/stable-diffusion-high-resolution/badge)](https://replicate.com/cjwbw/stable-diffusion-high-resolution)
+
 txt2imghd is a port of the GOBIG mode from [progrockdiffusion](https://github.com/lowfuel/progrockdiffusion) applied to [Stable Diffusion](https://github.com/CompVis/stable-diffusion), with [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) as the upscaler. It creates detailed, higher-resolution images by first generating an image from a prompt, upscaling it, and then running img2img on smaller pieces of the upscaled image, and blending the result back into the original image.
 
 txt2imghd with default settings has the same VRAM requirements as regular Stable Diffusion, although generation of the detailed images will take longer.
@@ -20,7 +22,38 @@ python scripts/txt2imghd.py
 
 txt2imghd will output three images: the original Stable Diffusion image, the upscaled version (denoted by a `u` suffix), and the detailed version (denoted by the `ud` suffix).
 
-## Example images
+If you're running into issues with [WatermarkEncoder](https://pypi.org/project/invisible-watermark/), install WatermarkEncoder in your ldm environment with
+`pip install invisible-watermark`
+
+### Optional Parameters
+
+A selection of useful parameters to be appended after `python scripts/txt2imghd.py`:
+
+`--prompt` the prompt to render (in quotes), examples  [below](#example-images--promts)
+
+`--img` only do detailing, using the path to an existing image (image will also be copied to output dir)
+
+`--generated` only do detailing, on a an image in the output folder, using the image's index (example "00003")
+
+`--n_iter 25` number of images to generate\
+*default = 1*
+
+`--gobig_overlap` overlap size for GOBIG\
+*default = 128*
+
+`--detail_steps` number of sampling steps when detailing\
+*default = 150*
+
+`--wm` watermark text using WatermarkEncoder\
+*default = "txt2imghd"*
+
+`--passes` number of upscaling/detailing passes\
+*default = 1* 
+
+`--strength` strength for noising/unnoising. 1.0 corresponds to full destruction of information in init image (especially useful when using an existing image)\
+*default = 0.3*
+
+## Example images / Promts
 
 [old harbour, tone mapped, shiny, intricate, cinematic lighting, highly detailed, digital painting, artstation, concept art, smooth, sharp focus, illustration, art by terry moore and greg rutkowski and alphonse mucha](gallery/00005ud.png)
 
